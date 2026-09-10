@@ -1,3 +1,14 @@
 <h2>Alla frukter i butiken</h2>
+<ul>
+<% @fruits.each do |fruits| %>
+    <li>
+      <a href="/fruits/<%= fruits["id"]%>">
+				<%= fruits["name"] %></a>
+    </li>
+
+<% end %>
+
+
+</ul>
 
 <code>TODO: Skriv ut en lista (ul + li) för att visa alla frukter i databasen</code>
