@@ -1,9 +1,13 @@
 <h2>Alla frukter i butiken</h2>
 <ul>
-<% @fruits.each do |fruits| %>
+<% @fruits.each do |fruit| %>
     <li>
-      <a href="/fruits/<%= fruits["id"]%>">
-				<%= fruits["name"] %></a>
+      <a href="/fruits/<%= fruit["id"]%>">
+				<%= fruit["name"] %></a>
+
+        <form class="delete" action="/fruits/<%=fruit["id"]%>/delete" method="post">
+               <input type="submit" value="Ta bort">
+        </form>
     </li>
 
 <% end %>
@@ -11,4 +15,4 @@
 
 </ul>
 
-<code>TODO: Skriv ut en lista (ul + li) för att visa alla frukter i databasen</code>
+
