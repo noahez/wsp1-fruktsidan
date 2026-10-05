@@ -17,9 +17,13 @@ class App < Sinatra::Base
    ap @fruits
   erb(:"fruits/index")
 
-
   # Ruby koden för vad som ska vara i HTTP response här
   end
+   get '/fruits/new' do
+    ap @fruits
+    erb(:"fruits/new")
+  end
+
   get '/fruits/:id' do | id |
     @fruit = db.execute('SELECT * FROM products WHERE id=?',id).first 
     ap @fruit
@@ -30,7 +34,15 @@ class App < Sinatra::Base
     db.execute('DELETE FROM products WHERE id=?' , id)
     redirect("/fruits")
   end
-    
 
+  post '/fruits' do
+    ap params
+   frukt_namn = params["frukt_namn"]
+   frukt_bes = params["frukt_bes"]
+   frukt_score = params["frukt_score"]
+    db.execute('INSERT INTO products (name , tastiness , description) VALUES (?,?,?)', [frukt_namn , frukt_score , frukt_bes])
+    redirect("fruits")
+  end
+ 
 end
 
