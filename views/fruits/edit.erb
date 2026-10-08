@@ -1,3 +1,8 @@
 <h2>Uppdatera frukt</h2>
 
-<code>TODO: Skapa ett formulär som uppdaterar en frukt</code>
+<form action = "/fruits/<%= @fruit["id"] %>/update" method= "post" >
+<lable>Nytt namn <input type= "text"  name ="ny_name" value = "<%= @fruit["name"]%>" > </lable>
+<lable>Ny Beskrivning <input type= "text" name= "ny_desc" value = <%= @fruit["description"]%> > </lable>
+<input type= "submit" value = "spara"  >
+
+</form>

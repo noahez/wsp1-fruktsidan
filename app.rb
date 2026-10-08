@@ -23,7 +23,11 @@ class App < Sinatra::Base
     ap @fruits
     erb(:"fruits/new")
   end
-
+  get '/fruits/:id/edit' do |id|
+    @fruit = db.execute('SELECT * FROM products WHERE id=?',id).first
+    ap @fruit
+    erb(:"fruits/edit")
+  end
   get '/fruits/:id' do | id |
     @fruit = db.execute('SELECT * FROM products WHERE id=?',id).first 
     ap @fruit
@@ -41,6 +45,13 @@ class App < Sinatra::Base
    frukt_bes = params["frukt_bes"]
    frukt_score = params["frukt_score"]
     db.execute('INSERT INTO products (name , tastiness , description) VALUES (?,?,?)', [frukt_namn , frukt_score , frukt_bes])
+    redirect("fruits")
+  end
+  post '/fruits/:id/update'do |id|
+    ap params
+    frukt_ny_namn = params["ny_name"]
+    fruky_ny_desc = params["ny_desc"]
+    db.execute('UPDATE products SET name = ?, description = ? WHERE id = ?', [frukt_ny_namn , fruky_ny_desc, id])
     redirect("fruits")
   end
  
