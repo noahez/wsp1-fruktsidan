@@ -25,11 +25,12 @@ class App < Sinatra::Base
   erb(:"categories/index")
 end
 
-get '/categories/id'do |id|
+get '/categories/:id'do |id|
   @fruits = db.execute('SELECT * FROM products 
-						   WHERE category_id=?', id).first
+						   WHERE category_id=?', id)
+               ap @fruits
   @category = db.execute('SELECT * FROM categories 
-							   WHERE id=?',id)
+							   WHERE id=?',id).first
 
 erb(:"categories/show")
 end
@@ -54,6 +55,7 @@ end
 
   get '/fruits/:id/edit' do |id|
     @fruit = db.execute('SELECT * FROM products WHERE id=?',id).first
+    @categories = db.execute("SELECT * FROM categories")
     ap @fruit
     erb(:"fruits/edit")
   end
@@ -68,14 +70,17 @@ end
    frukt_namn = params["frukt_namn"]
    frukt_bes = params["frukt_bes"]
    frukt_score = params["frukt_score"]
-    db.execute('INSERT INTO products (name , tastiness , description) VALUES (?,?,?)', [frukt_namn , frukt_score , frukt_bes])
+   frukt_categori = params["category_id"]
+    db.execute('INSERT INTO products (name , tastiness , description, category_id) VALUES (?,?,?,?)', [frukt_namn , frukt_score , frukt_bes, frukt_categori])
     redirect("fruits")
   end
   post '/fruits/:id/update'do |id|
     ap params
     frukt_ny_namn = params["ny_name"]
     fruky_ny_desc = params["ny_desc"]
-    db.execute('UPDATE products SET name = ?, description = ? WHERE id = ?', [frukt_ny_namn , fruky_ny_desc, id])
+    fruky_ny_score = params["ny_score"]
+    fruky_ny_category = params["category_id"]
+    db.execute('UPDATE products SET name = ?,tastiness = ? ,description = ?,category_id= ?   WHERE id = ?', [frukt_ny_namn ,fruky_ny_score, fruky_ny_desc ,fruky_ny_category, id])
     redirect("fruits")
   end
  
