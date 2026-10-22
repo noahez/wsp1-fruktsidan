@@ -1,0 +1,8 @@
+<h2>Mer information om vald frukt</h2>
+<h2>Mer info om: <%= @category['name'] %></h2>
+<ul>
+  <li> its a <%="⭐" * @fruit['tastiness']%> tastiness
+  <li> kategori: <a href='/categories/<%= @category['id'] %>'>  <%= @category['name'] %> </a>
+  <li> Beskrivning: <%=@fruit['description']%>
+
+

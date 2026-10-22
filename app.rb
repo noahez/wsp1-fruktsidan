@@ -19,19 +19,43 @@ class App < Sinatra::Base
 
   # Ruby koden för vad som ska vara i HTTP response här
   end
+ get '/categories' do
+  @categories = db.execute('SELECT * FROM categories')
+  ap @categories
+  erb(:"categories/index")
+end
+
+get '/categories/id'do |id|
+  @fruits = db.execute('SELECT * FROM products 
+						   WHERE category_id=?', id).first
+  @category = db.execute('SELECT * FROM categories 
+							   WHERE id=?',id)
+
+erb(:"categories/show")
+end
+
+
+
    get '/fruits/new' do
+     @categories = db.execute('SELECT * FROM categories')
     ap @fruits
     erb(:"fruits/new")
   end
+get '/fruits/:id' do | id |
+  @fruit = db.execute('SELECT * FROM products 
+						   WHERE id=?', id).first
+  @category = db.execute('SELECT * FROM categories 
+							   WHERE id=?',
+							   @fruit['category_id']).first
+  ap @fruit
+  ap @category
+  erb(:"fruits/show")
+end
+
   get '/fruits/:id/edit' do |id|
     @fruit = db.execute('SELECT * FROM products WHERE id=?',id).first
     ap @fruit
     erb(:"fruits/edit")
-  end
-  get '/fruits/:id' do | id |
-    @fruit = db.execute('SELECT * FROM products WHERE id=?',id).first 
-    ap @fruit
-    erb(:"fruits/show")
   end
 
   post '/fruits/:id/delete' do | id |
